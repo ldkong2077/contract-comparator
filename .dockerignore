@@ -1,0 +1,55 @@
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+*.egg
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.*
+venv/
+.venv/
+
+# Config (sensitive)
+config/api_keys.json
+config/api_keys.json.secret
+config/admin_keys.json
+
+# Runtime data
+data/
+temp/
+output/
+*.log
+
+# Documentation (not needed in runtime)
+docs/images/*.png
+docs/images/*.jpg
+
+# Examples (not needed in runtime)
+examples/
+
+# Tests (not needed in runtime)
+tests/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project docs (not needed in runtime)
+PROJECT_MODIFICATION_PLAN.md
+SETUP_DOMAIN_EMAIL.md
