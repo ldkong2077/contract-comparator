@@ -582,8 +582,7 @@ contract-comparator/
 │           └── app_streamlit.py    # Streamlit dashboard (~2350 lines)
 └── tests/                          # Test suite (~5400 lines, 22 files)
     ├── conftest.py                 # Pytest fixtures
-    ├── test_*.py                   # Unit & integration tests
-    └── _test_security.py           # Security tests (excluded from default run)
+    └── test_*.py                   # Unit & integration tests
 ```
 
 ---
