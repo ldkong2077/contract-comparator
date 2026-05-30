@@ -17,7 +17,7 @@ openpyxl>=3.1.0
 diff-match-patch>=20230430
 
 # ---- Web 框架 ----
-streamlit>=1.28.0
+streamlit>=1.58.0
 fastapi>=0.104.0
 uvicorn[standard]>=0.24.0
 python-multipart>=0.0.6
