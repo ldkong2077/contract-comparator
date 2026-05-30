@@ -1,0 +1,85 @@
+# ============================================================
+# 合同比对专业版 Docker Compose 编排
+# ============================================================
+
+services:
+  # ---- Streamlit 前端 UI ----
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: contract-comparator:latest
+    container_name: contract-comparator-streamlit
+    ports:
+      - "${STREAMLIT_PORT:-8501}:8501"
+    volumes:
+      - ./profiles:/app/profiles:ro
+      - ./output:/app/output
+    environment:
+      - OCR_CONFIDENCE_THRESHOLD=${OCR_CONFIDENCE_THRESHOLD:-0.5}
+      - LLM_ENABLED=${LLM_ENABLED:-false}
+      - LLM_MODEL=${LLM_MODEL:-qwen3.5-0.8b}
+      - LLM_BASE_URL=${LLM_BASE_URL:-http://ollama:11434}
+      - OUTPUT_DIR=${OUTPUT_DIR:-/app/output}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - PROFILE_DIR=${PROFILE_DIR:-/app/profiles}
+      - API_BASE_URL=http://api:8080
+    restart: unless-stopped
+    depends_on:
+      - api
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # ---- FastAPI 后端 API ----
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: contract-comparator:latest
+    container_name: contract-comparator-api
+    command: ["uvicorn", "api_server:app", "--host", "0.0.0.0", "--port", "8080", "--log-level", "${LOG_LEVEL:-info}"]
+    ports:
+      - "${API_PORT:-8080}:8080"
+    volumes:
+      - ./profiles:/app/profiles:ro
+      - ./output:/app/output
+    environment:
+      - OCR_CONFIDENCE_THRESHOLD=${OCR_CONFIDENCE_THRESHOLD:-0.5}
+      - LLM_ENABLED=${LLM_ENABLED:-false}
+      - LLM_MODEL=${LLM_MODEL:-qwen3.5-0.8b}
+      - LLM_BASE_URL=${LLM_BASE_URL:-http://ollama:11434}
+      - OUTPUT_DIR=${OUTPUT_DIR:-/app/output}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - PROFILE_DIR=${PROFILE_DIR:-/app/profiles}
+      - API_HOST=0.0.0.0
+      - API_PORT=8080
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/api/v1/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  # ---- Ollama LLM 服务（可选）----
+  ollama:
+    image: ollama/ollama:latest
+    container_name: contract-comparator-ollama
+    ports:
+      - "${OLLAMA_PORT:-11434}:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+      - OLLAMA_HOST=0.0.0.0
+    restart: unless-stopped
+    profiles:
+      - llm
+
+volumes:
+  ollama_data:
+    driver: local

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合同扫描件比对工具 — Contract Document Comparator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            color: #1a1a2e;
+            background: #f8f9fa;
+            line-height: 1.6;
+        }
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            padding: 80px 20px 60px;
+            text-align: center;
+        }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 12px; font-weight: 700; }
+        .hero .subtitle { font-size: 1.2rem; opacity: 0.85; margin-bottom: 30px; }
+        .hero .tagline {
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.1);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+        .cta-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .cta-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.15s;
+        }
+        .cta-btn:hover { transform: translateY(-2px); }
+        .cta-primary { background: #e94560; color: white; }
+        .cta-secondary { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+        .section { padding: 60px 0; }
+        .section-title { font-size: 1.8rem; text-align: center; margin-bottom: 40px; color: #1a1a2e; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border-left: 4px solid #e94560;
+        }
+        .card h3 { font-size: 1.15rem; margin-bottom: 10px; color: #1a1a2e; }
+        .card p { font-size: 0.95rem; color: #555; }
+        .features-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .features-table th, .features-table td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .features-table th { background: #1a1a2e; color: white; font-weight: 600; }
+        .features-table tr:hover { background: #f8f9fa; }
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin: 40px 0;
+            font-size: 0.95rem;
+            color: #856404;
+        }
+        .disclaimer strong { color: #664d03; }
+        .footer {
+            background: #1a1a2e;
+            color: rgba(255,255,255,0.7);
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.9rem;
+        }
+        .footer a { color: #e94560; text-decoration: none; }
+        .badge-row { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        .badge { background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 12px; font-size: 0.85rem; }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.8rem; }
+            .cards { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero">
+    <div class="container">
+        <div class="tagline">中文合同扫描件智能比对工具</div>
+        <h1>Contract Document Comparator</h1>
+        <p class="subtitle">合同扫描件 vs 原版文档 — 字段级差异检测，自动告诉你哪里被改了</p>
+        <div class="badge-row">
+            <span class="badge">Python 3.10+</span>
+            <span class="badge">MIT License</span>
+            <span class="badge">Beta / Pilot</span>
+            <span class="badge">OCR + LLM</span>
+        </div>
+        <br>
+        <div class="cta-group">
+            <a href="https://github.com/contract-comparator/contract-comparator" class="cta-btn cta-primary">GitHub</a>
+            <a href="#quick-start" class="cta-btn cta-secondary">快速开始</a>
+            <a href="mailto:team@contract-comparator.dev" class="cta-btn cta-secondary">企业试点</a>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="scenarios">
+    <div class="container">
+        <h2 class="section-title">核心应用场景</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>📄 合同扫描件核对</h3>
+                <p>盖章合同扫描件（PDF/图片）与原始 Word 文档逐字段比对，自动检测金额、日期、条款等关键要素差异。</p>
+            </div>
+            <div class="card">
+                <h3>📊 Excel 附件核对</h3>
+                <p>支持单元格级差异分析、行插入/删除检测、多 Sheet 比对，精准定位数据变更。</p>
+            </div>
+            <div class="card">
+                <h3>🔍 审计 / 招投标复核</h3>
+                <p>全文差异追踪 + LLM 语义分析，自动评估差异风险等级（高/中/低），辅助人工复核决策。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="features" style="background: white;">
+    <div class="container">
+        <h2 class="section-title">功能特性</h2>
+        <table class="features-table">
+            <thead>
+                <tr>
+                    <th>能力</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>多引擎 OCR</strong></td>
+                    <td>RapidOCR（默认）→ EasyOCR → Tesseract，自动降级</td>
+                </tr>
+                <tr>
+                    <td><strong>智能字段提取</strong></td>
+                    <td>15+ 正则模式，中文大写金额解析，全角/半角归一化</td>
+                </tr>
+                <tr>
+                    <td><strong>多维比对引擎</strong></td>
+                    <td>字段级匹配 + 数字容差 + 关键词重叠度 + 结构对齐</td>
+                </tr>
+                <tr>
+                    <td><strong>LLM 语义分析</strong></td>
+                    <td>Ollama（本地）+ Claude API，区分实质性差异与格式差异</td>
+                </tr>
+                <tr>
+                    <td><strong>6 种导出格式</strong></td>
+                    <td>TXT · JSON · DOCX（红线标注）· XLSX · PDF（A4）· ZIP</td>
+                </tr>
+                <tr>
+                    <td><strong>三合一界面</strong></td>
+                    <td>CLI · Streamlit Web（:8501）· FastAPI REST（:8080）</td>
+                </tr>
+                <tr>
+                    <td><strong>行业预设</strong></td>
+                    <td>通用 · 建设工程 · 租赁 · 采购 · 劳动合同</td>
+                </tr>
+                <tr>
+                    <td><strong>安全体系</strong></td>
+                    <td>API Key HMAC 认证 · RBAC 角色控制 · 审计日志 · 输入消毒</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="section" id="quick-start">
+    <div class="container">
+        <h2 class="section-title">快速开始</h2>
+        <pre style="background:#1a1a2e;color:#e94560;padding:24px;border-radius:8px;overflow-x:auto;font-size:0.95rem;line-height:1.7;"><code># 克隆仓库
+git clone https://github.com/contract-comparator/contract-comparator.git
+cd contract-comparator
+
+# 安装依赖
+pip install -r requirements.lock
+
+# 比对合同扫描件与原版文档
+python main.py --word 原版合同.docx --pdf 扫描件.pdf
+
+# 启动 Web UI
+streamlit run app_streamlit.py</code></pre>
+    </div>
+</section>
+
+<section class="section" id="disclaimer" style="background: white;">
+    <div class="container">
+        <div class="disclaimer">
+            <strong>开源版本声明 / Open-Source Version Notice</strong><br><br>
+            本开源版本仅供 <strong>本地 / 内网试用与评估</strong>，不承诺企业级 SLA、安全合规保证或商业技术支持。<br>
+            输出结果不构成法律意见，正式签署或审计前必须经人工确认。<br>
+            如需生产环境部署、私有化定制或企业 SLA 支持，请联系项目维护团队。<br><br>
+            <em>This open-source version is intended for local/intranet evaluation only. No enterprise SLA, compliance guarantees, or commercial support is provided.</em>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>Contract Document Comparator &copy; 2026 &middot; <a href="https://github.com/contract-comparator/contract-comparator">GitHub</a> &middot; MIT License</p>
+    <p style="margin-top:6px;">第三方许可提示：本项目使用 PyMuPDF（AGPL）、fpdf2（LGPL-3.0）等第三方库，商业使用前请自行审查许可条款。</p>
+</footer>
+
+</body>
+</html>

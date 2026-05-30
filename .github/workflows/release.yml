@@ -1,0 +1,78 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Build package
+        run: python -m build
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREV_TAG=$(git tag --sort=-creatordate | head -n 2 | tail -n 1)
+          if [ -z "$PREV_TAG" ]; then
+            echo "changelog=Initial release ${{ steps.version.outputs.VERSION }}" >> $GITHUB_OUTPUT
+          else
+            LOG=$(git log $PREV_TAG..${{ github.ref_name }} --oneline --no-decorate)
+            echo "changelog<<EOF" >> $GITHUB_OUTPUT
+            echo "$LOG" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## v${{ steps.version.outputs.VERSION }}
+
+            ${{ steps.changelog.outputs.changelog }}
+
+            ### Installation
+            ```bash
+            pip install contract-comparator
+            ```
+
+            ### Docker
+            ```bash
+            docker pull ghcr.io/${{ github.repository }}:v${{ steps.version.outputs.VERSION }}
+            ```
+
+            ### What's Changed
+            See [CHANGELOG.md](CHANGELOG.md) for full release notes.
+          draft: true
+          prerelease: false
+          generate_release_notes: false
+          files: |
+            dist/*.whl
+            dist/*.tar.gz

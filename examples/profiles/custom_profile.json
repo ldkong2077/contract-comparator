@@ -1,0 +1,162 @@
+{
+    "name": "采购合同模板",
+    "description": "适用于采购合同的字段提取配置，包含合同编号、金额、日期、甲乙方等关键字段",
+    "version": "1.0.0",
+    "author": "Contract Comparator Team",
+    "fields": {
+        "contract_no": {
+            "label": "合同编号",
+            "label_en": "Contract Number",
+            "patterns": [
+                "合同编号[：:]\\s*([A-Za-z0-9\\-]+)",
+                "合同号[：:]\\s*([A-Za-z0-9\\-]+)",
+                "Contract No[.：:]\\s*([A-Za-z0-9\\-]+)",
+                "Agreement No[.：:]\\s*([A-Za-z0-9\\-]+)"
+            ],
+            "type": "string",
+            "required": true,
+            "confidence_threshold": 0.8
+        },
+        "amount": {
+            "label": "合同金额",
+            "label_en": "Contract Amount",
+            "patterns": [
+                "合同金额[：:]\\s*([\\d,\\.]+)\\s*(?:元|万元|RMB|CNY|USD)?",
+                "总[价金][额款]?[：:]\\s*([\\d,\\.]+)\\s*(?:元|万元|RMB|CNY|USD)?",
+                "Amount[：:]\\s*([\\d,\\.]+)\\s*(?:USD|RMB|CNY)?",
+                "Total[：:]\\s*([\\d,\\.]+)"
+            ],
+            "type": "currency",
+            "required": true,
+            "confidence_threshold": 0.7,
+            "normalize": {
+                "remove_commas": true,
+                "chinese_uppercase": true,
+                "unit_conversion": {
+                    "万元": 10000,
+                    "百万": 1000000,
+                    "亿": 100000000
+                }
+            }
+        },
+        "signing_date": {
+            "label": "签订日期",
+            "label_en": "Signing Date",
+            "patterns": [
+                "签订日期[：:]\\s*(\\d{4}[-/]\\d{1,2}[-/]\\d{1,2})",
+                "签署日期[：:]\\s*(\\d{4}[-/]\\d{1,2}[-/]\\d{1,2})",
+                "日期[：:]\\s*(\\d{4}年\\d{1,2}月\\d{1,2}日)",
+                "Date[：:]\\s*(\\d{4}[-/]\\d{1,2}[-/]\\d{1,2})"
+            ],
+            "type": "date",
+            "required": true,
+            "confidence_threshold": 0.9,
+            "normalize": {
+                "format": "YYYY-MM-DD"
+            }
+        },
+        "effective_date": {
+            "label": "生效日期",
+            "label_en": "Effective Date",
+            "patterns": [
+                "生效日期[：:]\\s*(\\d{4}[-/]\\d{1,2}[-/]\\d{1,2})",
+                "自\\s*(\\d{4}[-/]\\d{1,2}[-/]\\d{1,2})\\s*起",
+                "Effective[：:]\\s*(\\d{4}[-/]\\d{1,2}[-/]\\d{1,2})"
+            ],
+            "type": "date",
+            "required": false,
+            "confidence_threshold": 0.8
+        },
+        "expiry_date": {
+            "label": "到期日期",
+            "label_en": "Expiry Date",
+            "patterns": [
+                "到期日期[：:]\\s*(\\d{4}[-/]\\d{1,2}[-/]\\d{1,2})",
+                "至\\s*(\\d{4}[-/]\\d{1,2}[-/]\\d{1,2})\\s*止",
+                "有效期至[：:]\\s*(\\d{4}[-/]\\d{1,2}[-/]\\d{1,2})",
+                "Expiry[：:]\\s*(\\d{4}[-/]\\d{1,2}[-/]\\d{1,2})"
+            ],
+            "type": "date",
+            "required": false,
+            "confidence_threshold": 0.8
+        },
+        "party_a": {
+            "label": "甲方",
+            "label_en": "Party A",
+            "patterns": [
+                "甲方[（(]?(?:全称)?[)）]?[：:]\\s*(.+?)(?:\\s|$|。|，)",
+                "买[方受][方人]?[：:]\\s*(.+?)(?:\\s|$|。|，)",
+                "Party A[：:]\\s*(.+?)(?:\\s|$|。|,)"
+            ],
+            "type": "text",
+            "required": true,
+            "confidence_threshold": 0.7
+        },
+        "party_b": {
+            "label": "乙方",
+            "label_en": "Party B",
+            "patterns": [
+                "乙方[（(]?(?:全称)?[)）]?[：:]\\s*(.+?)(?:\\s|$|。|，)",
+                "卖[方供][方人]?[：:]\\s*(.+?)(?:\\s|$|。|，)",
+                "Party B[：:]\\s*(.+?)(?:\\s|$|。|,)"
+            ],
+            "type": "text",
+            "required": true,
+            "confidence_threshold": 0.7
+        },
+        "payment_terms": {
+            "label": "付款条款",
+            "label_en": "Payment Terms",
+            "patterns": [
+                "付款[方条]?[式款][：:]\\s*(.+?)(?:\\n|$)",
+                "付款条件[：:]\\s*(.+?)(?:\\n|$)",
+                "Payment[：:]\\s*(.+?)(?:\\n|$)"
+            ],
+            "type": "text",
+            "required": false,
+            "confidence_threshold": 0.6
+        },
+        "delivery_terms": {
+            "label": "交付条款",
+            "label_en": "Delivery Terms",
+            "patterns": [
+                "交付[方条]?[式款][：:]\\s*(.+?)(?:\\n|$)",
+                "交货[方条]?[式款][：:]\\s*(.+?)(?:\\n|$)",
+                "Delivery[：:]\\s*(.+?)(?:\\n|$)"
+            ],
+            "type": "text",
+            "required": false,
+            "confidence_threshold": 0.6
+        },
+        "warranty_period": {
+            "label": "质保期",
+            "label_en": "Warranty Period",
+            "patterns": [
+                "质保[期时][：:]\\s*(\\d+\\s*[个]?月|\\d+\\s*年)",
+                "保修[期时][：:]\\s*(\\d+\\s*[个]?月|\\d+\\s*年)",
+                "Warranty[：:]\\s*(\\d+\\s*(?:months?|years?))"
+            ],
+            "type": "duration",
+            "required": false,
+            "confidence_threshold": 0.8
+        },
+        "penalty_clause": {
+            "label": "违约金条款",
+            "label_en": "Penalty Clause",
+            "patterns": [
+                "违约金[：:]\\s*(.+?)(?:\\n|$)",
+                "违约责任[：:]\\s*(.+?)(?:\\n|$)",
+                "Penalty[：:]\\s*(.+?)(?:\\n|$)"
+            ],
+            "type": "text",
+            "required": false,
+            "confidence_threshold": 0.6
+        }
+    },
+    "metadata": {
+        "created_at": "2026-05-30",
+        "updated_at": "2026-05-30",
+        "tags": ["采购", "procurement", "通用"],
+        "industry": "general"
+    }
+}

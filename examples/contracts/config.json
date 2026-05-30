@@ -1,0 +1,19 @@
+{
+  "comparison": {
+    "ocr_engine": "rapidocr",
+    "confidence_threshold": 0.7,
+    "number_tolerance": 0.01,
+    "similarity_threshold": 0.85,
+    "industry_preset": "general"
+  },
+  "field_extraction": {
+    "extract_amounts": true,
+    "extract_dates": true,
+    "extract_parties": true,
+    "extract_contract_ids": true
+  },
+  "export": {
+    "formats": ["txt", "json", "docx", "xlsx", "pdf", "zip"],
+    "output_dir": "./output"
+  }
+}
