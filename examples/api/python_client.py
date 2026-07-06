@@ -260,7 +260,7 @@ def main():
         print(f"  版本: {health.get('version', 'unknown')}")
     except requests.RequestException as e:
         print(f"  错误: 无法连接到服务 ({e})")
-        print("  请确保 FastAPI 服务已启动: uvicorn api_server:app --reload")
+        print("  请确保 FastAPI 服务已启动: uvicorn contract_comparator.api.api_server:app --reload")
         return
     print()
     

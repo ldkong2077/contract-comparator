@@ -13,6 +13,7 @@ import hmac
 import json
 import logging
 import os
+import re
 import secrets
 import sqlite3
 import stat
@@ -317,7 +318,12 @@ class SQLiteBackend(StorageBackend):
             sql += " WHERE " + " AND ".join(conditions)
 
         if order_by:
-            sql += f" ORDER BY {order_by}"
+            # 安全：对排序列做白名单校验，禁止任意字符串拼接，防止 SQL 注入
+            _ob = order_by.strip()
+            if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*(\s+(ASC|DESC))?", _ob, re.IGNORECASE):
+                sql += f" ORDER BY {_ob}"
+            else:
+                logger.warning("ORDER BY 值非法已忽略（疑似注入尝试）: %s", _ob)
 
         sql += " LIMIT ? OFFSET ?"
         params.extend([limit, offset])

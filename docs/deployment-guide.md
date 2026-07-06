@@ -50,7 +50,7 @@ SaaS deployment.
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/contract-comparator/contract-comparator.git
+git clone https://github.com/ldkong2077/contract-comparator.git
 cd contract-comparator
 
 # 2. Configure environment

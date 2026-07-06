@@ -251,7 +251,7 @@ def _run_excel_compare(args):
 
         # 生成差异报告
         report_path = os.path.join(output_dir, "excel_diff_report.xlsx")
-        from excel_comparator import generate_diff_excel
+        from contract_comparator.compare.excel_comparator import generate_diff_excel
         generate_diff_excel(result, report_path)
         logger.info(f"差异报告已保存至: {report_path}")
 

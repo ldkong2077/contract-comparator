@@ -176,7 +176,7 @@ Closes #<issue_number>
 
 ```bash
 # 1. 克隆仓库
-git clone https://github.com/contract-comparator/contract-comparator.git
+git clone https://github.com/ldkong2077/contract-comparator.git
 cd contract-comparator
 
 # 2. 创建虚拟环境（推荐）

@@ -90,10 +90,10 @@ Opens at `http://localhost:8501`.
 
 ```bash
 # Development
-uvicorn src.contract_comparator.api.api_server:app --host 0.0.0.0 --port 8080 --reload
+uvicorn contract_comparator.api.api_server:app --host 0.0.0.0 --port 8080 --reload
 
 # Production
-uvicorn api_server:app --host 0.0.0.0 --port 8080 --workers 4
+uvicorn contract_comparator.api.api_server:app --host 0.0.0.0 --port 8080 --workers 4
 ```
 
 ### Interactive Docs

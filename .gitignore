@@ -51,3 +51,6 @@ Thumbs.db
 
 # RapidOCR models
 ~/.rapidocr/
+
+# WorkBuddy project memory (local only, do not publish)
+.workbuddy/

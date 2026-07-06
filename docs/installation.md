@@ -21,7 +21,7 @@ pip install contract-comparator
 
 ```bash
 # Clone the repository
-git clone https://github.com/contract-comparator/contract-comparator.git
+git clone https://github.com/ldkong2077/contract-comparator.git
 cd contract-comparator
 
 # Create virtual environment (recommended)
@@ -81,7 +81,7 @@ This starts:
 Pre-built images are available via GitHub Container Registry:
 
 ```bash
-docker pull ghcr.io/contract-comparator/contract-comparator:latest
+docker pull ghcr.io/ldkong2077/contract-comparator:latest
 ```
 
 ## Optional Dependencies / 可选依赖

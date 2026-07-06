@@ -1,0 +1,40 @@
+name: Smoke
+
+# 合并前拦截「按文档操作即失败」类问题（克隆/F1、安装/F2、CLI 可达性/F6、
+# API 模块可导入/F3、docker 编排语法/F3、文档与代码配置漂移/F7-F9）。
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies and package
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.lock
+          pip install -e .
+
+      - name: CLI help (compare / excel 子命令可达)
+        run: |
+          python -m contract_comparator.cli.main --help
+          python -m contract_comparator.cli.main excel --help
+
+      - name: API module importable
+        run: python -c "import contract_comparator.api.api_server"
+
+      - name: Docker compose config valid
+        run: docker compose config
+
+      - name: Docs/code config consistency
+        run: python scripts/check_docs_config.py

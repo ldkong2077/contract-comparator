@@ -41,7 +41,7 @@ services:
       dockerfile: Dockerfile
     image: contract-comparator:latest
     container_name: contract-comparator-api
-    command: ["uvicorn", "api_server:app", "--host", "0.0.0.0", "--port", "8080", "--log-level", "${LOG_LEVEL:-info}"]
+    command: ["uvicorn", "contract_comparator.api.api_server:app", "--host", "0.0.0.0", "--port", "8080", "--log-level", "${LOG_LEVEL:-info}"]
     ports:
       - "${API_PORT:-8080}:8080"
     volumes:

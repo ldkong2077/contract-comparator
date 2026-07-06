@@ -41,7 +41,7 @@ streamlit run src/contract_comparator/web/app_streamlit.py
 
 ```bash
 # 启动 FastAPI
-uvicorn src.contract_comparator.api.api_server:app --reload
+uvicorn contract_comparator.api.api_server:app --reload
 
 # 浏览器访问 http://localhost:8080/docs
 # 截取 Swagger 界面
