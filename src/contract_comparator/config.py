@@ -76,6 +76,7 @@ FIELD_CONFIG = {
 # === 比对配置 ===
 COMPARATOR_CONFIG = {
     "number_tolerance": float(os.getenv("NUMBER_TOLERANCE", "0.01")),
+    "number_rel_tolerance": float(os.getenv("NUMBER_REL_TOLERANCE", "0.00001")),
     "similarity_threshold": float(os.getenv("SIMILARITY_THRESHOLD", "0.85")),
     "min_segment_length": 4,
 }

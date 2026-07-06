@@ -1,9 +1,9 @@
-# Contract Document Comparator / 合同扫描件比对工具
+# Contract Comparator / 合同扫描件比对工具
 
 <p align="center">
-  <strong>智能合同比对引擎 — 字段级 OCR 比对 · Excel 差异分析 · LLM 语义评估</strong>
+  <strong>合同扫描件 vs 正本智能比对 · 字段级 OCR 抽取 · Excel/全文差异 · 本地优先（可选 LLM 语义研判）</strong>
   <br>
-  <em>Intelligent Contract Comparison Engine — Field-Level OCR Diff, Excel Delta Analysis, LLM Semantic Evaluation</em>
+  <em>Compare scanned signed contracts against original docs — field-level OCR, Excel &amp; full-text diff, local-first with optional LLM review</em>
 </p>
 
 > **⚠️ 重要免责声明 / Important Disclaimers**
@@ -455,7 +455,7 @@ docker run -p 8080:8080 contract-comparator \
 |----------|---------|
 | **File Upload** | Magic byte validation, extension whitelist, file size limit (50MB) |
 | **API Keys** | HMAC-SHA256 signed, Fernet encrypted at rest, configurable expiration |
-| **RBAC** | 3 roles: Admin (full access), Analyst (compare + export), Viewer (export only — **无 compare 权限**，仅可导出/下载已有结果) |
+| **RBAC** | 3 roles: Admin (full access), Analyst (compare + export), Viewer (read-only — 仅可查看比对结果与进度，不能发起比对或导出) |
 | **Rate Limiting** | Per-key rate limiting with configurable thresholds |
 | **Input Sanitization** | Strips XSS, SQL injection, command injection patterns |
 | **Sensitive Data** | Masker for 5 types: ID numbers, phone, bank cards, API keys, passwords |
@@ -477,6 +477,8 @@ docker run -p 8080:8080 contract-comparator \
 | `MAX_FILE_SIZE_MB` | `50` | Maximum upload size (MB) |
 | `DATABASE_URL` | `sqlite:///data/comparisons.db` | Database connection |
 | `RATE_LIMIT_RPM` | `30` | Requests per minute per key (实际变量名见 `config.py`) |
+| `NUMBER_TOLERANCE` | `0.01` | 数字比对的绝对下限（元）；与相对容差取较大者 |
+| `NUMBER_REL_TOLERANCE` | `0.00001` | 数字比对的相对容差（比例）；吸收大金额舍入噪声 |
 
 ### `config/api_keys.json` — API Key Storage
 

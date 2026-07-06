@@ -11,8 +11,21 @@ class Comparator:
     
     def __init__(self):
         self.number_tolerance = COMPARATOR_CONFIG["number_tolerance"]
+        self.number_rel_tolerance = COMPARATOR_CONFIG["number_rel_tolerance"]
         self.similarity_threshold = COMPARATOR_CONFIG["similarity_threshold"]
-    
+
+    def _is_close(self, a: float, b: float) -> bool:
+        """数值接近判定：相对容差 + 绝对下限，二者取大。
+
+        解决写死绝对容差 0.01 的两类问题：
+        - 大金额：¥1,000,000.00 与 ¥1,000,000.01 仅差 1 分，绝对容差会误报为差异；
+          相对容差（默认 1e-5）可吸收此类舍入噪声。
+        - 小金额/零值：相对项趋零，由绝对下限 number_tolerance(0.01) 兜底，避免误匹配。
+        """
+        abs_diff = abs(a - b)
+        rel_threshold = self.number_rel_tolerance * max(abs(a), abs(b))
+        return abs_diff <= max(rel_threshold, self.number_tolerance)
+
     @staticmethod
     def normalize_keyword(keyword: str) -> str:
         """关键词归一化（去除标点、空格、统一大小写）"""
@@ -81,7 +94,7 @@ class Comparator:
                     break
                 
                 # 策略 2：数值接近 + 上下文有共同关键词
-                if abs(wn["normalized"] - pn["normalized"]) < self.number_tolerance:
+                if self._is_close(wn["normalized"], pn["normalized"]):
                     wn_ctx = wn.get("context", "")
                     pn_ctx = pn.get("context", "")
                     
@@ -203,14 +216,14 @@ class Comparator:
                 
                 # 策略 1：关键词相同 + 数字接近
                 if wa_kw and pa_kw and wa_kw == pa_kw:
-                    if abs(wa["normalized"] - pa["normalized"]) < self.number_tolerance:
+                    if self._is_close(wa["normalized"], pa["normalized"]):
                         matched.append({"word": wa, "pdf": pa})
                         pdf_matched_indices.add(j)
                         found = True
                         break
                 
                 # 策略 2：短语中包含相同核心数字 + 数字相同
-                if abs(wa["normalized"] - pa["normalized"]) < self.number_tolerance:
+                if self._is_close(wa["normalized"], pa["normalized"]):
                     # 检查短语中是否有共同的关键词
                     wa_raw = str(wa["normalized"])
                     pa_raw = str(pa["normalized"])

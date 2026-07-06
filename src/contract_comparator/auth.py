@@ -46,9 +46,10 @@ ROLE_PERMISSIONS: dict[str, list[str]] = {
         PERMISSION_EXPORT,
         PERMISSION_MANAGE_PROFILES,
     ],
-    ROLE_VIEWER: [
-        PERMISSION_EXPORT,
-    ],
+    # 只读角色：无任何写/导出权限，仅可通过「仅需登录」的查看类端点
+    # （如 GET /api/v1/compare/{task_id}/status，该端点返回完整比对结果）查看已有结果。
+    # 不能发起比对（compare），也不能导出/下载（export）。
+    ROLE_VIEWER: [],
 }
 
 # API Key 前缀
