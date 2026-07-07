@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- Viewer role made truly read-only (no compare/export permission)
+- Number tolerance changed to relative + absolute floor (NUMBER_REL_TOLERANCE)
+- Clone URL, uvicorn module paths, and docker-run example in README/docs
+- Excel CLI crash (broken bare import)
+- ORDER BY SQL injection whitelist in database query
+- pyproject.toml URLs now point to ldkong2077/contract-comparator
+- LICENSE copyright holder updated to ldkong2077
+
+### Added
+- CI smoke test (install → import → config consistency)
+- Docs/config consistency checker script (scripts/check_docs_config.py)
+- .gitattributes for cross-platform line-ending normalization
+
 ## [4.0.0] - 2026-05-25
 
 ### Added

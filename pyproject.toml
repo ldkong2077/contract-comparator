@@ -35,12 +35,12 @@ classifiers = [
 requires-python = ">=3.10"
 
 [project.urls]
-Homepage = "https://github.com/contract-comparator/contract-comparator"
-Repository = "https://github.com/contract-comparator/contract-comparator"
-Documentation = "https://github.com/contract-comparator/contract-comparator/tree/main/docs"
-Changelog = "https://github.com/contract-comparator/contract-comparator/blob/main/CHANGELOG.md"
-"Bug Tracker" = "https://github.com/contract-comparator/contract-comparator/issues"
-"Security Policy" = "https://github.com/contract-comparator/contract-comparator/blob/main/SECURITY.md"
+Homepage = "https://github.com/ldkong2077/contract-comparator"
+Repository = "https://github.com/ldkong2077/contract-comparator"
+Documentation = "https://github.com/ldkong2077/contract-comparator/tree/main/docs"
+Changelog = "https://github.com/ldkong2077/contract-comparator/blob/main/CHANGELOG.md"
+"Bug Tracker" = "https://github.com/ldkong2077/contract-comparator/issues"
+"Security Policy" = "https://github.com/ldkong2077/contract-comparator/blob/main/SECURITY.md"
 
 dependencies = [
     "rapidocr-onnxruntime>=1.3.0",
