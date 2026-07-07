@@ -23,7 +23,7 @@ uvicorn[standard]>=0.24.0
 python-multipart>=0.0.6
 
 # ---- 报告导出 ----
-fpdf2>=2.7.0
+fpdf2>=2.8.7
 jinja2>=3.1.0
 
 # ---- 数据库 / 加密 ----
